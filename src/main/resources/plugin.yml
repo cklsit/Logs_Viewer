@@ -1,0 +1,19 @@
+name: LogsViewer
+main: com.cklsit.logsviewer.LogsViewer
+version: 1.0.0
+api-version: 1.8
+description: Lightweight in-game server log viewer (1.8.x - 1.21.x)
+author: cklsit
+website: https://github.com/cklsit/Logs_Viewer
+
+commands:
+  logsview:
+    description: View server logs in-game
+    usage: /logsview <error|warn|info> <amount> [content]
+    aliases: [logsviewer, lv]
+    permission: logsview.use
+
+permissions:
+  logsview.use:
+    description: Allows using the /logsview command
+    default: op
