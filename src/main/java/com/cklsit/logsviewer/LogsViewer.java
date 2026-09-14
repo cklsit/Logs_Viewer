@@ -33,7 +33,7 @@ public final class LogsViewer extends JavaPlugin implements CommandExecutor {
 
     /** 标准日志行: [HH:mm:ss LEVEL]: message（堆栈等非标准行会被附加到上一条） */
     private static final Pattern LINE_PATTERN =
-            Pattern.compile("^\\[(\\d{2}:\\d{2}:\\d{2})\\]\\s+([A-Za-z]+)\\]:\\s?(.*)$");
+            Pattern.compile("^\\[(\\d{2}:\\d{2}:\\d{2})\\s+([A-Za-z]+)\\]:\\s?(.*)$");
 
     @Override
     public void onEnable() {
