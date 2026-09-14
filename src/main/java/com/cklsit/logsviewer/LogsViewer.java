@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -31,9 +31,14 @@ public final class LogsViewer extends JavaPlugin implements CommandExecutor {
     /** 单次最多显示的条数，防止刷屏 */
     private static final int MAX_LINES = 50;
 
-    /** 标准日志行: [HH:mm:ss LEVEL]: message（堆栈等非标准行会被附加到上一条） */
+    /**
+     * 日志行，兼容两种格式：
+     *   老版本 (1.8.x-1.12.x): [HH:mm:ss] [Thread/LEVEL]: message
+     *   新版本 (1.13.x-1.21.x): [HH:mm:ss LEVEL]: message
+     * 堆栈等非标准行会被附加到上一条日志。
+     */
     private static final Pattern LINE_PATTERN =
-            Pattern.compile("^\\[(\\d{2}:\\d{2}:\\d{2})\\s+([A-Za-z]+)\\]:\\s?(.*)$");
+            Pattern.compile("^\\[(\\d{2}:\\d{2}:\\d{2})(?:\\]\\s*\\[[^/]+/|\\s+)([A-Za-z]+)\\]:\\s?(.*)$");
 
     @Override
     public void onEnable() {
@@ -124,7 +129,7 @@ public final class LogsViewer extends JavaPlugin implements CommandExecutor {
     private List<LogEntry> readLog(File file) throws IOException {
         List<LogEntry> entries = new ArrayList<LogEntry>();
         BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new FileInputStream(file), Charset.defaultCharset()));
+                new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
         try {
             String line;
             while ((line = reader.readLine()) != null) {
